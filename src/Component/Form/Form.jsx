@@ -62,7 +62,7 @@ function Form (){
         <div className="to-do">
             <input type="text" onChange={(e)=>{setInput(e.target.value)}}/><button onClick={()=>Add()}>Add</button>
             <input type="text" onChange={(e)=>setSelect(e.target.value)}></input> 
-            {list.map((item,i)=>item.includes(select) && 
+            {list.map((item,i)=>item?.includes(select) && 
             <div>{isedit[i]!=true ?
                 <span>
                     <span>{item}</span>
