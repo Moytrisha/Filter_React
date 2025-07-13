@@ -40,7 +40,7 @@ function Form (){
             <input type="text" onChange={(e)=>setSelect(e.target.value)}></input> 
             {/* <button onClick={Delete()}>Delete</button> */}
             {/* {list.map((item,index)=><div>{item}<button onClick={()=>{del(index)}}>Delete</button><button onClick={()=>{edit(index)}}>Edit</button></div>)} */}
-            {list.map((item,i)=>{item.includes(select) && <div>{item}</div>})}
+            {list.map((item,i)=>item.includes(select) && <div>{item}</div>)}
             {isedit===true && <input></input>} 
             {list[1]?.includes(select)}
         </div>
