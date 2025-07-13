@@ -3,11 +3,12 @@ import React, { useState } from "react";
 function Form (){
     const [list,setList] = useState([])
     const [input,setInput]= useState("")
-    const [isedit,setIsedit] = useState(false)
+    const [isedit,setIsedit] = useState([])
     const [select,setSelect] = useState("")
+    const [editValue, setEditValue]=useState("");
     function Add (e){
         setList([...list,input])
-        
+        setIsedit([...isedit,false])
     }
 
     function del(index) {
@@ -20,15 +21,38 @@ function Form (){
         setList(updatedList)
     }
 
-    function edit(index) {
-        let finallist= []
-        for(let i =0;i<list.length;i++) {
+    function edit(index,val) {
+        let updatedEdit= []
+        for(let i =0;i<isedit.length;i++) {
             if(i===index) {
-                setIsedit(true)
+                updatedEdit.push(val)
+            }
+            else{
+                updatedEdit.push(isedit[i])
             }
         }
+        if(val===true)
+        {
+            setEditValue(list[index])
+        }
+        setIsedit(updatedEdit);
     }
 
+
+    function editItem(index)
+    {
+        let updatedEdit= []
+        for(let i =0;i<isedit.length;i++) {
+            if(i===index) {
+                updatedEdit.push(editValue)
+            }
+            else{
+                updatedEdit.push(list[i])
+            }
+        }
+        setList(updatedEdit);
+        edit(index,false)
+    }
     // function Dropdown() {
     //     for (let i=0;i<list[i].length;i++) {
 
@@ -38,11 +62,19 @@ function Form (){
         <div className="to-do">
             <input type="text" onChange={(e)=>{setInput(e.target.value)}}/><button onClick={()=>Add()}>Add</button>
             <input type="text" onChange={(e)=>setSelect(e.target.value)}></input> 
-            {/* <button onClick={Delete()}>Delete</button> */}
-            {/* {list.map((item,index)=><div>{item}<button onClick={()=>{del(index)}}>Delete</button><button onClick={()=>{edit(index)}}>Edit</button></div>)} */}
-            {list.map((item,i)=>item.includes(select) && <div>{item}</div>)}
-            {isedit===true && <input></input>} 
-            {list[1]?.includes(select)}
+            {list.map((item,i)=>item.includes(select) && 
+            <div>{isedit[i]!=true ?
+                <span>
+                    <span>{item}</span>
+                    <button onClick={()=>del(i)}>Delete</button>
+                    <button onClick={()=>edit(i,true)}>Edit</button>
+                </span>
+                :
+                <span>
+                    <input value={editValue} onChange={(e)=>{setEditValue(e.target.value)}}></input>
+                    <button onClick={()=>editItem(i)}>Submit</button>
+                </span>}
+            </div>)}
         </div>
     )
 }
